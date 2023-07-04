@@ -92,14 +92,14 @@ function App() {
 
   const handleDownload = () => {
 
-    const file = new Blob([content], {type: 'text/plain'});
+    const file = new Blob([content], {type: 'text/plain'})
 
-    const element = document.createElement("a");
-    element.href = URL.createObjectURL(file);
-    element.download = "summarized-text" + Date.now() + ".txt";
+    const element = document.createElement("a")
+    element.href = URL.createObjectURL(file)
+    element.download = "summarized-text" + Date.now() + ".txt"
 
-    document.body.appendChild(element);
-    element.click();
+    document.body.appendChild(element)
+    element.click()
 
     setDownloaded(true)
     setTimeout(() => {
