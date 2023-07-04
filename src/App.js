@@ -13,29 +13,31 @@ function App() {
   const [prompt, setPrompt] = useState('')
   const [wordCounter, setWordCounter] = useState('0')
   const [isValidated, setIsValidated] = useState(false)
-  const [content, setContent] = useState(null)
+  const [content, setContent] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+  const [copied, setCopied] = useState(false)
+  const [downloaded, setDownloaded] = useState(false)
+  const [cleared, setCleared] = useState(false)
 
   useEffect(() => {
+
     if (prompt === '') {
       setWordCounter(0);
     } else {
       setWordCounter(prompt.trim().split(' ').length)
     }
+
   }, [prompt]);
 
-  const handleChange = (e) => {
+  useEffect(() => {
 
-    if(wordCounter <= 50) {
-      setIsValidated(false)
-    } else if ( 50 < wordCounter && wordCounter <= 400 ) {
+    if ( 50 < wordCounter && wordCounter <= 400 ) {
       setIsValidated(true)
     } else {
       setIsValidated(false)
     }
 
-    setPrompt(e.target.value)
-  }
+  }, [wordCounter])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -80,8 +82,39 @@ function App() {
  
   }
 
-  const handleCopyClick = () => {
-    console.log('copied!')
+  const handleCopy = () => {
+    navigator.clipboard.writeText(content)
+    setCopied(true)
+    setTimeout(() => {
+      setCopied(false)
+    }, 5000)
+  }
+
+  const handleDownload = () => {
+
+    const file = new Blob([content], {type: 'text/plain'});
+
+    const element = document.createElement("a");
+    element.href = URL.createObjectURL(file);
+    element.download = "summarized-text" + Date.now() + ".txt";
+
+    document.body.appendChild(element);
+    element.click();
+
+    setDownloaded(true)
+    setTimeout(() => {
+      setDownloaded(false)
+    }, 5000)
+  }
+
+  const handleClear = () => {
+    setContent('')
+    setPrompt('')
+
+    setCleared(true)
+    setTimeout(() => {
+      setCleared(false)
+    }, 5000)
   }
 
   return (
@@ -103,8 +136,6 @@ function App() {
             <div className="card">
               <form
                 onSubmit={handleSubmit} 
-                action="/summarize"
-                method="POST"
                 className="h-full"
               >
                 <Heading 
@@ -126,7 +157,7 @@ function App() {
                   className="card__content outline-none resize-none" 
                   placeholder="Enter text here"
                   value={prompt}
-                  onChange={handleChange}
+                  onChange={e => setPrompt(e.target.value)}
                 >
                 </textarea>
                 <ButtonGroup>
@@ -152,17 +183,19 @@ function App() {
                   <Button 
                     icon="📑"
                     styles="border-r"
-                    content="Copy"
-                    onClick={handleCopyClick}
+                    content={!copied ? "Copy" : "Copied"}
+                    onClick={handleCopy}
                   />
                   <Button 
                     icon="⤵️"
-                    content="Download"
+                    content={!downloaded ? "Download" : "Downloaded"}
+                    onClick={handleDownload}
                   />
                   <Button 
                     icon="🗑️"
                     styles="border-l"
-                    content="Clear"
+                    content={!cleared ? "Clear" : "Cleared"}
+                    onClick={handleClear}
                   />
                 </ButtonGroup>
             </div>

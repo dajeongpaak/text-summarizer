@@ -47,6 +47,4 @@ app.post('/summarize', async (req, res) => {
 })
 
 
-// Authorization: Bearer process.env.OPENAI_API_KEY
-
 
