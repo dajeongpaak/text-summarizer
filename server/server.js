@@ -13,6 +13,10 @@ app.listen(PORT, () => { console.log(`Server started on ${PORT}`)})
     // every incoming request will be formatted in JSON
 app.use(express.json());
 
+app.use(express.static(path.join(__dirname, '../build')))
+
+app.get('*', (req, res) => res.sendFile(__dirname, '../', 'build', 'index.html'))
+
 const configuration = new Configuration({
     apiKey: process.env.OPENAI_API_KEY,
   });
