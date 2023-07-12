@@ -47,8 +47,8 @@ Along with the summarization feature, TL;si also provides convenient options to 
 ## Acknowledgments
 
 - [OpenAI API](https://platform.openai.com/overview) - AI resouce for summarization.
-- [Tostify](https://fkhadra.github.io/react-toastify/introduction) - Email address storage and management.
-- [Tippy](https://atomiks.github.io/tippyjs/) - Library for sending emails.
+- [Tostify](https://fkhadra.github.io/react-toastify/introduction) - Library for displaying instant feedback message
+- [Tippy](https://atomiks.github.io/tippyjs/) - Library for creating tooltips.
 
 ## Contact Information
 
