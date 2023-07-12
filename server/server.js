@@ -29,6 +29,16 @@ app.post('/summarize', async (req, res) => {
 
     try { 
         console.log('Incoming request:', req.body);
+
+        if (!prompt || prompt.trim().length === 0) {
+            return res.status(400).json({ error: 'Prompt is required' });
+          }
+      
+        const wordCount = prompt.trim().split(' ').length;
+        if (wordCount < 50 || wordCount > 400) {
+        return res.status(400).json({ error: 'Text must be between 50 and 400 words' });
+        }
+
         const completion = await openai.createChatCompletion({
             model: "gpt-3.5-turbo",
             messages: [{ 
